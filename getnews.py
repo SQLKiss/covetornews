@@ -2,7 +2,7 @@ import requests
 
 api_key='eda4bf5358654cafbee74d38c6c001f8'
 country = None #'au' #'au'
-q = "Crypto" #'Tesla'
+q = "Australia" #'Tesla'
 
 baseurl = 'https://newsapi.org/v2/top-headlines?'
 #baseurl = 'https://newsapi.org/v2/everything?'

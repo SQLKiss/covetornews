@@ -1,6 +1,6 @@
-import requests
+import requests,os
 
-api_key='eda4bf5358654cafbee74d38c6c001f8'
+api_key = os.getenv("NEWSAPIKEY")
 country = None #'au' #'au'
 q = "Australia" #'Tesla'
 

@@ -1,3 +1,6 @@
+from datetime import datetime, timedelta
+import requests,os,openai
+
 #list of subjects/questions
 #current utc date -1 as a "from"
 #call news api for each one news in the subject
@@ -10,12 +13,8 @@ topics = ["Australia","New%20Zealand","Cars"] #,"Auto","Games","Economy","Crypto
 articleslimit = 3 #number of article(s) per subject
 sortBy = "publishedAt" #fresh news #"publishedAt" #"relevancy" #"popularity"
 
-
-from datetime import datetime, timedelta
 nfrom = (datetime.utcnow() - timedelta(days=1)).strftime('%Y-%m-%d') #UTC -1 day to cover all 24hour news
 
-
-import requests,os
 newsApiKey = os.getenv("NEWSAPIKEY")
 
 #collect articles
@@ -66,7 +65,7 @@ for topic in topics:
 #    for artice in news:
 #        print(artice['title'])
 
-import openai
+
 openai.api_key = os.getenv("OPENAPIKEY")
 openai.organization = os.getenv("OPENAPIORG")
 
@@ -79,16 +78,21 @@ for topic, news in articles.items():
         completion = openai.ChatCompletion.create(
             model="gpt-3.5-turbo", messages=[{"role": "user", "content": content}], temperature=0.25
         )
-        processedArticles[topic].append(completion.choices[0].message['content']+" (" + article['source'] + ")")
+        processedArticles[topic].append(completion.choices[0].message['content']+" <i>(" + article['source'] + ")</i>")
 
+message = ""
 for topic, content in processedArticles.items():
-    print(topic.replace('%20',' ')+":")
+    message += "\n<b>"+topic.replace('%20',' ')+":</b>\n"
+    #print(topic.replace('%20',' ')+":")
     for artice in content:
-        print(artice)
-    print("")
+        message += artice + "\n"
+        #print(artice)
+    #print("")
 
+#print(message)
+telegramToken = os.getenv("TELEGRAMBOTKEY")
+chat_id = "-1001783307848" #CovetorNews
 
-#I need to show subjects and then the lines
-#auto news:
-#...
-#games, etc..
+requesturl = "https://api.telegram.org/bot" + telegramToken + "/sendMessage" + "?chat_id=" + chat_id + "&text=" + message 
+response = requests.get(requesturl)
+

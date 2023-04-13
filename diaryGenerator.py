@@ -6,11 +6,11 @@ import requests,os,openai
 #call news api for each one news in the subject
 #read content and convert to a bullet point with URL at the end
 
-topics = ["Australia","New%20Zealand","Cars"] #,"Auto","Games","Economy","Crypto"]
+topics = ["Australia","Queensland","New%20Zealand","Cars"] #,"Auto","Games","Economy","Crypto"]
 
 ###################################
 
-articleslimit = 3 #number of article(s) per subject
+articleslimit = 2 #number of article(s) per subject
 sortBy = "publishedAt" #fresh news #"publishedAt" #"relevancy" #"popularity"
 
 nfrom = (datetime.utcnow() - timedelta(days=1)).strftime('%Y-%m-%d') #UTC -1 day to cover all 24hour news
@@ -28,7 +28,7 @@ for topic in topics:
     requesturl +='&pageSize=10'
     requesturl +='&q='+topic
 
-    #get 5 topics and skip existing
+    #get topics and skip existing, pick up only by limits
 
     #print(requesturl) ##########
     articles[topic] = []
@@ -83,13 +83,11 @@ for topic, news in articles.items():
 message = ""
 for topic, content in processedArticles.items():
     message += "\n<b>"+topic.replace('%20',' ')+":</b>\n"
-    #print(topic.replace('%20',' ')+":")
     for artice in content:
         message += artice + "\n"
-        #print(artice)
-    #print("")
 
 #print(message)
+
 telegramToken = os.getenv("TELEGRAMBOTKEY")
 chat_id = "-1001783307848" #CovetorNews
 

@@ -46,20 +46,3 @@ def sendTelegramMessage(message, debug = 1):
     requesturl +="&disable_web_page_preview=true"
     return requests.get(requesturl)
 #--------------------------------#
-
-## Begin #################################
-
-topics = ["Australia","Queensland"] #,"New%20Zealand","Aviation"] #,"Auto","Games","Economy","Crypto"]
-
-result = ""
-for topic in topics:
-    news = getNewsArticles(topic)
-    result += "\n<b>" + topic + ":</b>\n"
-    for article in news:
-        result += getArticleSummary(article['description'])
-        result +=' <i>(<a href="'+article['url']+'">'+article['source']+'</a>)</i>\n'
-
-response = sendTelegramMessage(result)
-print(response)
-
-## End ##################################

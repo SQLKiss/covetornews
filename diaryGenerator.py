@@ -95,4 +95,9 @@ chat_id = "-1001783307848" #CovetorNews
 
 requesturl = "https://api.telegram.org/bot" + telegramToken + "/sendMessage" + "?chat_id=" + chat_id + "&parse_mode=HTML" + "&text=" + message 
 response = requests.get(requesturl)
+if response.status_code == 200:
+    print(response.json())
+else:
+    print(f"Error: {response.status_code}")
+
 

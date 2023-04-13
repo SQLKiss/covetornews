@@ -74,13 +74,12 @@ processedArticles = {}
 for topic, news in articles.items():
     processedArticles[topic] = []
     for article in news:
-        content = """Summarise article below into a short story-line with a two-three emoji (assisting describing content, but not replacing it) with the source in the brackets at the end:
-        source: """ + article['source'] + """
-        article: """ + article['description'][:1024]
+        content = """Summarise text below into a short story-line with a two-three emoji (assisting describing content, but not replacing the content):
+        """ + article['description'][:1024]
         completion = openai.ChatCompletion.create(
             model="gpt-3.5-turbo", messages=[{"role": "user", "content": content}], temperature=0.25
         )
-        processedArticles[topic].append(completion.choices[0].message['content'])
+        processedArticles[topic].append(completion.choices[0].message['content']+" (" + article['source'] + ")")
 
 for topic, content in processedArticles.items():
     print(topic.replace('%20',' ')+":")

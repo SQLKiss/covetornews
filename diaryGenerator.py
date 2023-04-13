@@ -6,7 +6,7 @@ import requests,os,openai
 #call news api for each one news in the subject
 #read content and convert to a bullet point with URL at the end
 
-topics = ["Australia","Queensland","New%20Zealand","Cars"] #,"Auto","Games","Economy","Crypto"]
+topics = ["Australia","Queensland","New%20Zealand","Aviation"] #,"Auto","Games","Economy","Crypto"]
 
 ###################################
 
@@ -94,7 +94,7 @@ chat_id = "-1001783307848" #CovetorNews
 requesturl = "https://api.telegram.org/bot" + telegramToken + "/sendMessage" + "?chat_id=" + chat_id + "&parse_mode=HTML" + "&text=" + message 
 response = requests.get(requesturl)
 if response.status_code == 200:
-    print(response.json())
+    print("Sent to Telegram channel")
 else:
     print(f"Error: {response.status_code}")
 

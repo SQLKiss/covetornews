@@ -20,14 +20,14 @@ def getNewsArticles(topic, articleslimit = 2, sortBy = "publishedAt"):
 #--------------------------------#
 
 #--------------------------------#
-def getArticleSummary(content):
+def getArticleSummary(content, temperature=0.25):
     import os,openai
     openai.api_key = os.getenv("OPENAPIKEY")
     openai.organization = os.getenv("OPENAPIORG")
     result = """Summarise text below into a short story-line with a two-three emoji (assisting describing content, but not replacing the content):
-    """ + content[:1024]
+    """ + content[:2048]
     completion = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo", messages=[{"role": "user", "content": result}], temperature=0.25
+        model="gpt-3.5-turbo", messages=[{"role": "user", "content": result}], temperature=temperature
     )
     return completion.choices[0].message['content']
 #--------------------------------#

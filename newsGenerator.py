@@ -1,8 +1,13 @@
 from funcLib import getNewsArticles,getArticleSummary,sendTelegramMessage
 
-posts = {"Queensland": 2, "New Zealand": 2, "Aviation":1, "Boobs":1, "IT News": 4, "Science": 3}
-
 #"Brisbane","Auckland","Economy","Crypto","Industry","Business","Shopping","Lifestyle","Boobs","Aviation","Aircraft","Travel","Technology"
+
+#posts = {"Queensland": 2, "New Zealand": 2, "Aviation":1, "Boobs":1, "IT News": 4, "Science": 3}
+posts = {"Queensland": 2, "New Zealand": 2, "Aviation":2, "Technology": 3, "Science": 3}
+
+#to-do:
+#add headlines
+#save results first, then post (easier to debug)
 
 result = ""
 for topic,numberOfArticles in posts.items():
@@ -20,7 +25,7 @@ for topic,numberOfArticles in posts.items():
         for article in news:
             if len(article['description'])>0:
                 result += getArticleSummary(article['description'])
-                result +=' <i>(<a href="'+article['url']+'">'+article['source']+'</a>)</i>\n'
+                result +=' (<a href="'+article['url']+'"><i>'+article['source']+'</i></a>)\n'
     print("Articles generated")
 
 if len(result)>0:
@@ -28,4 +33,6 @@ if len(result)>0:
     if response.status_code == 200:
         print("Sent to Telegram")
     else:
+        print(result)
         print(response.json())
+        

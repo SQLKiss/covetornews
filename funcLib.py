@@ -1,14 +1,6 @@
 #--------------------------------#
-def getNewsArticles(topic, articleslimit = 2, sortBy = "publishedAt"):
-    from datetime import datetime, timedelta
-    import os,requests
-    nfrom = (datetime.utcnow() - timedelta(days=1)).strftime('%Y-%m-%d') #UTC -1 day to cover all 24hour news
-    newsApiKey = os.getenv("NEWSAPIKEY")
-    requesturl = 'https://newsapi.org/v2/everything?'+'apiKey='+newsApiKey+'&language=en'+"&sortBy="+sortBy+'&from='+nfrom+f'&pageSize={articleslimit}'
-    requesturl +='&q='+topic
-
+def convertNewsResponseToContent(response):
     articles = []
-    response = requests.get(requesturl)
     if response.status_code == 200:
         result = response.json()
         for arr in result['articles']:
@@ -17,6 +9,17 @@ def getNewsArticles(topic, articleslimit = 2, sortBy = "publishedAt"):
     else:
         print(f"Error: {response.status_code}")
     return articles
+
+def getNewsArticles(topic, articleslimit = 2, sortBy = "publishedAt"):
+    from datetime import datetime, timedelta
+    import os,requests
+    nfrom = (datetime.utcnow() - timedelta(days=1)).strftime('%Y-%m-%d') #UTC -1 day to cover all 24hour news
+    newsApiKey = os.getenv("NEWSAPIKEY")
+    requesturl = 'https://newsapi.org/v2/everything?'+'apiKey='+newsApiKey+'&language=en'+"&sortBy="+sortBy+'&from='+nfrom+f'&pageSize={articleslimit}'
+    requesturl +='&q='+topic
+
+    response = requests.get(requesturl)
+    return convertNewsResponseToContent(response)
 #--------------------------------#
 
 #--------------------------------#

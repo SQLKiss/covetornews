@@ -24,8 +24,13 @@ for topic,numberOfArticles in posts.items():
         result += "\n<b>" + topic + ":</b>\n"
         for article in news:
             if len(article['description'])>0:
-                result += getArticleSummary(article['description'])
-                result +=' (<a href="'+article['url']+'"><i>'+article['source']+'</i></a>)\n'
+                articleSummary = getArticleSummary(article['description'])
+                sourceURL = ' (<a href="'+article['url']+'"><i>'+article['source']+'</i></a>)\n'
+                if (len(result) + len(articleSummary) + len(sourceURL)) <= 4096: #Telegram message limit
+                    result += articleSummary + sourceURL
+                else:
+                    print("Message is too long")
+                    break
     print("Articles generated")
 
 if len(result)>0:

@@ -8,6 +8,7 @@ posts = {"Queensland": 2, "New Zealand": 2, "Aviation":2, "Technology": 3, "Scie
 #to-do:
 #add headlines
 #save results first, then post (easier to debug)
+#use Google Trends to generate list of topics
 
 result = ""
 for topic,numberOfArticles in posts.items():
@@ -24,7 +25,8 @@ for topic,numberOfArticles in posts.items():
         result += "\n<b>" + topic + ":</b>\n"
         for article in news:
             if len(article['description'])>0:
-                articleSummary = getArticleSummary(article['description'])
+                message = "Description: " + article['description'] + "\nContent: " + article['content']
+                articleSummary = getArticleSummary(message)
                 sourceURL = ' (<a href="'+article['url']+'"><i>'+article['source']+'</i></a>)\n'
                 if (len(result) + len(articleSummary) + len(sourceURL)) <= 4096: #Telegram message limit
                     result += articleSummary + sourceURL

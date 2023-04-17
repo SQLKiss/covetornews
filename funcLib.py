@@ -4,7 +4,7 @@ def convertNewsResponseToContent(response):
     if response.status_code == 200:
         result = response.json()
         for arr in result['articles']:
-            content = {'source': arr['source']['name'],'author':arr['author'], 'title':arr['title'], 'url':arr['url'], 'description':arr['description']}
+            content = {'source': arr['source']['name'],'author':arr['author'], 'title':arr['title'], 'url':arr['url'], 'description':arr['description'], 'content':arr['content']}
             articles.append(content)
     else:
         print(f"Error: {response.status_code}")

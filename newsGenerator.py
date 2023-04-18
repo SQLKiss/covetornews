@@ -1,6 +1,6 @@
 #to-do:
 #add headlines
-#collect news first, then process, then post (easier to debug)
+#collect news first, then save, then process saved, then post (easier to debug and less API calls)
 #use Google Trends to generate list of topics
 
 from funcLib import generateAndPostNewsToTelegram

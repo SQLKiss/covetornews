@@ -119,7 +119,7 @@ def generateAndPostNewsToTelegram(topics,debug=1):
                         if (len(result) + len(articleSummary) + len(sourceURL)) <= 4096: #Telegram message limit
                             result += articleSummary + sourceURL
                         else:
-                            print("Message is too long, no more topics added")
+                            print("Message is too long, no more articles added")
                             break
                 except:
                     print(title)

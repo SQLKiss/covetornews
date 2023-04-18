@@ -33,7 +33,7 @@ for topic,numberOfArticles in posts.items():
                 url = article['url'] if article['url'] is not None else ''
                 source = article['source'] if article['source'] is not None else ''
                 message = "Description: " + description + "\nContent: " + content
-                sourceURL = ' (<a href="'+url+'">'+prepareTelegramHTMLmessage(source)+'</a>)\n'
+                sourceURL = ' (<a href="'+url+'">'+prepareTelegramHTMLmessage(source)+'</a>)\n\n'
                 if len(description)>0:
                     articleSummary = getArticleSummary(message)
                     articleSummary = prepareTelegramHTMLmessage(articleSummary)

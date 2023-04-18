@@ -19,7 +19,7 @@ def getNewsArticles(topic, articleslimit = 2, sortBy = "publishedAt"):
     return articles
 
 def getNewsIOArticles(q, articleslimit = 2, category = 'top'):
-    #category = "business,entertainment" #,environment,food,health,politics,science,sports,technology,top,tourism,world
+    #category = "food,health" #business,entertainment,environment,food,health,politics,science,sports,technology,top,tourism,world
     from datetime import datetime, timedelta
     import os,requests
     nfrom = (datetime.utcnow() - timedelta(days=1)).strftime('%Y-%m-%d') #UTC -1 day to cover all 24hour news
@@ -94,4 +94,45 @@ def sendTelegramMessage(message, debug = 1):
         url='https://api.telegram.org/bot{0}/{1}'.format(telegramToken, "sendMessage"),
         data={'chat_id': chat_id, 'disable_web_page_preview': True, 'parse_mode': 'HTML', 'text': message}
     )
+#--------------------------------#
+
+#--------------------------------#
+def generateAndPostNewsToTelegram(topics,debug=1):
+    result = ""
+    for topic,numberOfArticles in topics.items():
+        print(f"Topic: {topic} ({numberOfArticles})")
+        news = getNewsIOArticles(topic,numberOfArticles)
+        if len(news)>0:
+            result += "<b>" + topic + ":</b>\n"
+            for article in news:
+                try:
+                    title = article['title']
+                    description = article['description'] if article['description'] is not None else ''
+                    content = article['content'] if article['content'] is not None else description
+                    url = article['url'] if article['url'] is not None else ''
+                    source = article['source'] if article['source'] is not None else ''
+                    message = "Description: " + description + "\nContent: " + content
+                    sourceURL = ' (<a href="'+url+'">'+prepareTelegramHTMLmessage(source)+'</a>)\n\n'
+                    if len(description)>0:
+                        articleSummary = getArticleSummary(message)
+                        articleSummary = prepareTelegramHTMLmessage(articleSummary)
+                        if (len(result) + len(articleSummary) + len(sourceURL)) <= 4096: #Telegram message limit
+                            result += articleSummary + sourceURL
+                        else:
+                            print("Message is too long, no more topics added")
+                            break
+                except:
+                    print(title)
+                    print(description)
+                    print(url)
+                    print(source)
+        print("Articles generated")
+
+    if len(result)>0:
+        response = sendTelegramMessage(result,debug) #0=prod, 1=debug
+        if response.status_code == 200:
+            print("Sent to Telegram")
+        else:
+            print(result)
+            print(response.json())
 #--------------------------------#

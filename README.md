@@ -8,10 +8,9 @@ More info and documentation: https://www.sqlkiss.com/covetor-news-app/introducti
 Quick start:  
 -Set environment variables for: NEWSDATAKEY, OPENAPIKEY, OPENAPIORG, TELEGRAMBOTKEY, PRODCHATID  
 -Create a python script  
--Add this code:    
+-Run this code (also available in newsGenerator.py):    
 ```  
 from funcLib import generateAndPostNewsToTelegram  
 topics = {"Brisbane":5, "Auckland":5}  
 generateAndPostNewsToTelegram(topics=topics,debug=0)  
-```  
--Run   
+``` 

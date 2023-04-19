@@ -81,14 +81,15 @@ def prepareTelegramHTMLmessage(message):
 def sendTelegramMessage(message, debug = 1):
     import os,requests
     if debug == 0:
-        chat_id = "-1001783307848" #CovetorNews
+        chat_id = os.getenv("PRODCHATID")
         telegramToken = os.getenv("TELEGRAMBOTKEY")
     else:
-        chat_id = "-1001371860541" #TestTelegramChannel
+        chat_id = os.getenv("TESTCHATID")
         telegramToken = os.getenv("TELEGRAMBOTTESTKEY")
     if telegramToken is None:
-        print("Missing token Key")
-        telegramToken = ""
+        raise ValueError('Telegram token key is Missing')
+    if chat_id is None:
+        raise ValueError('chat_id key is missing')
 
     return requests.post(
         url='https://api.telegram.org/bot{0}/{1}'.format(telegramToken, "sendMessage"),

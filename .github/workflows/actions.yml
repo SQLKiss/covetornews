@@ -27,4 +27,13 @@ jobs:
           pip install -r requirements.txt
 
       - name: execute newsGenerator
+        env:
+          NEWSAPIKEY: ${{ secrets.NEWSAPIKEY }}
+          NEWSDATAKEY: ${{ secrets.NEWSDATAKEY }}
+          OPENAPIKEY: ${{ secrets.OPENAPIKEY }}
+          OPENAPIORG: ${{ secrets.OPENAPIORG }}
+          PRODCHATID: ${{ secrets.PRODCHATID }}
+          TELEGRAMBOTKEY: ${{ secrets.TELEGRAMBOTKEY }}
+          TESTCHATID: ${{ secrets.TESTCHATID }}
+          TELEGRAMBOTTESTKEY: ${{ secrets.TELEGRAMBOTTESTKEY }}
         run: python newsGenerator.py

@@ -4,6 +4,8 @@ def getNewsArticles(topic, articleslimit = 2, sortBy = "publishedAt"):
     import os,requests
     nfrom = (datetime.utcnow() - timedelta(days=1)).strftime('%Y-%m-%d') #UTC -1 day to cover all 24hour news
     newsApiKey = os.getenv("NEWSAPIKEY")
+    if newsApiKey is None:
+        raise ValueError('NEWSAPIKEY is missing')
     requesturl = 'https://newsapi.org/v2/everything?'+'apiKey='+newsApiKey+'&language=en'+"&sortBy="+sortBy+'&from='+nfrom+f'&pageSize={articleslimit}'
     requesturl +='&q='+topic
 
@@ -24,6 +26,8 @@ def getNewsIOArticles(q, articleslimit = 2, category = 'top'):
     import os,requests
     nfrom = (datetime.utcnow() - timedelta(days=1)).strftime('%Y-%m-%d') #UTC -1 day to cover all 24hour news
     newsApiKey = os.getenv("NEWSDATAKEY")
+    if newsApiKey is None:
+        raise ValueError('NEWSDATAKEY is missing')
     requesturl = 'https://newsdata.io/api/1/news?'+'apikey='+newsApiKey+'&language=en'+"&country=au,nz"
     requesturl +='&from_date='+nfrom
     requesturl +=f'&category={category}'
@@ -58,8 +62,15 @@ def getNewsIOArticles(q, articleslimit = 2, category = 'top'):
 #--------------------------------#
 def getArticleSummary(content, temperature=0.25):
     import os,openai
-    openai.api_key = os.getenv("OPENAPIKEY")
-    openai.organization = os.getenv("OPENAPIORG")
+    openApiKey = os.getenv("OPENAPIKEY")
+    openApiOrg = os.getenv("OPENAPIORG")
+    if openApiKey is None:
+        raise ValueError('OPENAPIKEY is missing')
+    if openApiOrg is None:
+        raise ValueError('OPENAPIORG is missing')
+    
+    openai.api_key = openApiKey
+    openai.organization = openApiOrg
     result = """Summarise text below into a short sentense with a two-three emoji at the beginning (assisting describing content, but not replacing the content):
     """ + content[:2048]
     completion = openai.ChatCompletion.create(

@@ -1,13 +1,8 @@
 name: run newsGenerator.py
 
 on:
-  push:
-    branches:
-      - f/SetupActions
-
-#on:
-#  schedule:
-#    - cron: '0 5 * * *' # At 05:00 am every day
+  schedule:
+    - cron: '0 18 * * *' # At 6pm UTC every day (4 am Brisbane, 6-7 am Auckland)
 
 jobs:
   build:

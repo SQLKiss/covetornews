@@ -104,7 +104,7 @@ def generateAndPostNewsToTelegram(topics,debug=1):
         print(f"Topic: {topic} ({numberOfArticles})")
         news = getNewsIOArticles(topic,numberOfArticles)
         if len(news)>0:
-            result += "<b>" + topic + ":</b>\n"
+            #result += "<b>" + topic + ":</b>\n"
             for article in news:
                 try:
                     title = article['title']

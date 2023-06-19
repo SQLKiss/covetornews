@@ -71,10 +71,10 @@ def getArticleSummary(content, temperature=0.25):
     
     openai.api_key = openApiKey
     openai.organization = openApiOrg
-    result = """Summarise text below into a short sentense with a two-three emoji at the beginning (assisting describing content, but not replacing the content):
-    """ + content[:2048]
+    result = """What is the key point of the below text? Answer should be as short as possible, a one-liner with an emoji at the beginning.
+    """ + content
     completion = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo", messages=[{"role": "user", "content": result}], temperature=temperature
+        model="gpt-3.5-turbo-0613", messages=[{"role": "user", "content": result}], temperature=temperature
     )
     return completion.choices[0].message['content']
 #--------------------------------#

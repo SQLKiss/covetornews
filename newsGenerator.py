@@ -7,6 +7,6 @@ from funcLib import generateAndPostNewsToTelegram
 
 #"Brisbane","Auckland","Economy","Crypto","Industry","Business","Shopping","Lifestyle","Boobs","Aviation","Aircraft","Travel","Technology"
 
-topics = {"Brisbane":5, "Auckland":5}
+topics = {"Brisbane":5, "Technology":5}
 generateAndPostNewsToTelegram(topics=topics,debug=0) #0 means post to prod
 

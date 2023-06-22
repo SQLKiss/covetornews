@@ -28,7 +28,7 @@ def getNewsIOArticles(q, articleslimit = 2, category = 'top'):
     newsApiKey = os.getenv("NEWSDATAKEY")
     if newsApiKey is None:
         raise ValueError('NEWSDATAKEY is missing')
-    requesturl = 'https://newsdata.io/api/1/news?'+'apikey='+newsApiKey+'&language=en'+"&country=au,nz"
+    requesturl = 'https://newsdata.io/api/1/news?'+'apikey='+newsApiKey+'&language=en' #+"&country=au,nz"
     requesturl +='&from_date='+nfrom
     requesturl +=f'&category={category}'
     requesturl += ('&q='+q) if q is not None else ''
@@ -56,6 +56,11 @@ def getNewsIOArticles(q, articleslimit = 2, category = 'top'):
                 break
     else:
         print(f"Error: {response.status_code}")
+        code = response.json()
+        if code is None:
+            print("")
+        else:
+            print(f"Message: {code['results']['message']}")
     return articles
 #--------------------------------#
 
@@ -71,7 +76,7 @@ def getArticleSummary(content, temperature=0.25):
     
     openai.api_key = openApiKey
     openai.organization = openApiOrg
-    result = """What is the key point of the below text? Answer should be as short as possible, a one-liner with an emoji at the beginning.
+    result = """Summarize (key point only) the text below (answer should be as short as possible, a one-liner starts with a two-three emojis about the text, short answer is better):
     """ + content
     completion = openai.ChatCompletion.create(
         model="gpt-3.5-turbo-0613", messages=[{"role": "user", "content": result}], temperature=temperature
@@ -110,10 +115,11 @@ def sendTelegramMessage(message, debug = 1):
 
 #--------------------------------#
 def generateAndPostNewsToTelegram(topics,debug=1):
+    categories = 'business,science,technology,tourism,world'
     result = ""
     for topic,numberOfArticles in topics.items():
         print(f"Topic: {topic} ({numberOfArticles})")
-        news = getNewsIOArticles(topic,numberOfArticles)
+        news = getNewsIOArticles(topic,numberOfArticles,categories)
         if len(news)>0:
             #result += "<b>" + topic + ":</b>\n"
             for article in news:

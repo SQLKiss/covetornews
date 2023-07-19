@@ -41,6 +41,9 @@ def getNewsIOArticles(q, articleslimit = 2, category = 'top'):
         for arr in result['results']:
             try:
                 c_src = arr['source_id']
+                #ignore 'openpr' for now (to-do: better way of filtering sources)
+                if c_src == 'openpr':
+                    continue
                 c_auth = arr['creator'][0] if arr['creator'] is not None else ''
                 c_title = arr['title']
                 c_url = arr['link']

@@ -138,7 +138,7 @@ def generateAndPostNewsToTelegram(topics,debug=1):
                     if len(description)>0:
                         articleSummary = getArticleSummary(message)
                         articleSummary = prepareTelegramHTMLmessage(articleSummary)
-                        if (duplicateFactor(articleHash, articleSummary) > 0.5)
+                        if (duplicateFactor(articleHash, articleSummary) > 0.5):
                             continue
                         if (len(result) + len(articleSummary) + len(sourceURL)) <= 4096: #Telegram message limit
                             result += articleSummary + sourceURL
@@ -174,27 +174,28 @@ def duplicateFactor(articleHash, article):
     articleWords = [word for word in articleWords if len(word)>2]
     #remove all words with more than 15 characters
     articleWords = [word for word in articleWords if len(word)<16]
- 
-    #calculate the hash of every word in articleWords and put it into tempHash array    
-    tempHash = []    
-    for word in articleWords:    
-        tempHash.append(hash(word))    
- 
+
+    #calculate the hash of every word in articleWords and put it into tempHash array
+    tempHash = []
+    for word in articleWords:
+        tempHash.append(hash(word))
+
     tempHash.sort()
- 
-    if len(articleHash) > 0:
-    #for every element in articleHash take the alement to array existingArticleHash and compare it to tempHash elements     
+
+    #if articleHash is empty, add all elements of tempHash to it as articleHash[1]
+    if len(articleHash) == 0:
+        articleHash.append(tempHash)
+    else:
+        #for every element in articleHash take the alement to array existingArticleHash
         articleDuplicateFactor = 0
         for existingArticleHash in articleHash:
-            for hashValue in tempHash:                
-                if hashValue in existingArticleHash:    
-                    articleDuplicateFactor += 1                        
- 
-            percent = articleDuplicateFactor / len(tempHash)        
-            if percent > duplicateFactor:
-                duplicateFactor = percent
- 
-    articleHash.append(tempHash)
- 
+            for hashValue in tempHash:
+                if hashValue in existingArticleHash:
+                    articleDuplicateFactor += 1
+
+        percent = articleDuplicateFactor / len(tempHash)
+        if percent > duplicateFactor:
+            duplicateFactor = percent
+    
     return duplicateFactor
 #--------------------------------#

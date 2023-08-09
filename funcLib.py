@@ -165,14 +165,14 @@ def generateAndPostNewsToTelegram(topics,debug=1):
 def duplicateFactor(articleHash, article):
     import string
     duplicateFactor = 0
-
+ 
     #remove punctuation from article
-    article = article.translate(str.maketrans('', '', string.punctuation))
+    article = article.translate(str.maketrans('', '', string.punctuation))    
     #split article using space as separator
     articleWords = article.split()
-	#remove all words with less than 3 characters
+    #remove all words with less than 3 characters
     articleWords = [word for word in articleWords if len(word)>2]
-	#remove all words with more than 15 characters
+    #remove all words with more than 15 characters
     articleWords = [word for word in articleWords if len(word)<16]
 
     #calculate the hash of every word in articleWords and put it into tempHash array
@@ -182,11 +182,8 @@ def duplicateFactor(articleHash, article):
 
     tempHash.sort()
 
-    #if articleHash is empty, add all elements of tempHash to it as articleHash[1]
-    if len(articleHash) == 0:
-        articleHash.append(tempHash)
-    else:
-        #for every element in articleHash take the alement to array existingArticleHash
+    if len(articleHash) > 0:
+    #for every element in articleHash take the alement to array existingArticleHash
         articleDuplicateFactor = 0
         for existingArticleHash in articleHash:
             for hashValue in tempHash:
@@ -196,6 +193,8 @@ def duplicateFactor(articleHash, article):
         percent = articleDuplicateFactor / len(tempHash)
         if percent > duplicateFactor:
             duplicateFactor = percent
+        
+    articleHash.append(tempHash)
     
     return duplicateFactor
 #--------------------------------#

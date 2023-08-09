@@ -182,11 +182,8 @@ def duplicateFactor(articleHash, article):
 
     tempHash.sort()
 
-    #if articleHash is empty, add all elements of tempHash to it as articleHash[1]
-    if len(articleHash) == 0:
-        articleHash.append(tempHash)
-    else:
-        #for every element in articleHash take the alement to array existingArticleHash
+    if len(articleHash) > 0:
+    #for every element in articleHash take the alement to array existingArticleHash
         articleDuplicateFactor = 0
         for existingArticleHash in articleHash:
             for hashValue in tempHash:
@@ -196,6 +193,8 @@ def duplicateFactor(articleHash, article):
         percent = articleDuplicateFactor / len(tempHash)
         if percent > duplicateFactor:
             duplicateFactor = percent
+        
+    articleHash.append(tempHash)
     
     return duplicateFactor
 #--------------------------------#

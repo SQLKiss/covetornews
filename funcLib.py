@@ -138,7 +138,7 @@ def generateAndPostNewsToTelegram(topics,debug=1):
                     if len(description)>0:
                         articleSummary = getArticleSummary(message)
                         articleSummary = prepareTelegramHTMLmessage(articleSummary)
-                        if (duplicateFactor(articleHash, articleSummary) > 0.5):
+                        if (duplicateFactor(articleHash, articleSummary) > 0.7):
                             continue
                         if (len(result) + len(articleSummary) + len(sourceURL)) <= 4096: #Telegram message limit
                             result += articleSummary + sourceURL

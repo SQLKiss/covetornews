@@ -24,12 +24,11 @@ def getNewsIOArticles(q, articleslimit = 2, category = 'top'):
     #category = "food,health" #business,entertainment,environment,food,health,politics,science,sports,technology,top,tourism,world
     from datetime import datetime, timedelta
     import os,requests
-    nfrom = (datetime.utcnow() - timedelta(days=1)).strftime('%Y-%m-%d') #UTC -1 day to cover all 24hour news
     newsApiKey = os.getenv("NEWSDATAKEY")
     if newsApiKey is None:
         raise ValueError('NEWSDATAKEY is missing')
     requesturl = 'https://newsdata.io/api/1/news?'+'apikey='+newsApiKey+'&language=en' #+"&country=au,nz"
-    requesturl +='&from_date='+nfrom
+    requesturl +='&timeframe=24'#hours
     requesturl +=f'&category={category}'
     requesturl += ('&q='+q) if q is not None else ''
 

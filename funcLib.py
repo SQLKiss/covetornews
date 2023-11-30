@@ -28,7 +28,7 @@ def getNewsIOArticles(q, articleslimit = 2, category = 'top'):
     if newsApiKey is None:
         raise ValueError('NEWSDATAKEY is missing')
     requesturl = 'https://newsdata.io/api/1/news?'+'apikey='+newsApiKey+'&language=en' #+"&country=au,nz"
-    requesturl +='&timeframe=24'#hours
+    #requesturl +='&timeframe=24'#hours #disabled as it is only available on paid plans
     requesturl +=f'&category={category}'
     requesturl += ('&q='+q) if q is not None else ''
 
@@ -47,7 +47,7 @@ def getNewsIOArticles(q, articleslimit = 2, category = 'top'):
                 c_title = arr['title']
                 c_url = arr['link']
                 c_dsc = arr['description']
-                c_cntnt = arr['content']
+                c_cntnt = arr['content'] if arr['content'] is not None else arr['description']
                 content = {'source':c_src, 'author':c_auth, 'title':c_title, 'url':c_url, 'description':c_dsc, 'content':c_cntnt}
                 articles.append(content)
                 counter+=1

@@ -81,7 +81,7 @@ def getArticleSummary(content, temperature=0.25):
     result = """Summarize (key point only) the text below (answer should be as short as possible, a one-liner starts with a two-three emojis about the text, short answer is better):
     """ + content
     completion = openai.ChatCompletion.create(
-        model="gpt-4", messages=[{"role": "user", "content": result}], temperature=temperature
+        model="gpt-4o", messages=[{"role": "user", "content": result}], temperature=temperature
     )
     return completion.choices[0].message['content']
 #--------------------------------#
